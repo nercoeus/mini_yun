@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nercoeus.dao.mapper.FileMapper" >
+
+    <select id="getAllFiles" parameterType="com.nercoeus.action.SearchFileAction" resultType="com.nercoeus.dao.root.File" >
+        SELECT * FROM file WHERE canshare=1 AND filename LIKE '%${searchcontent}%' LIMIT #{startindex},#{pagesize}
+    </select>
+
+    <!-- 和搜索内容匹配的所有的共享的文件总数 -->
+    <select id="count" parameterType="com.nercoeus.action.SearchFileAction" resultType="int">
+       SELECT COUNT(id) FROM file WHERE canshare=1 AND filename LIKE '%${searchcontent}%'
+    </select>
+
+    <!-- 根据文件id查找文件路径 -->
+    <select id="findFilepathById" parameterType="int" resultType="java.lang.String">
+       SELECT file.filepath FROM file WHERE id=#{value}
+    </select>
+
+    <!-- 根据文件id查找文件名 -->
+    <select id="findFilenameById" parameterType="int" resultType="java.lang.String">
+       SELECT file.filename FROM file WHERE id=#{value}
+    </select>
+
+    <insert id="insertFile" parameterType="com.nercoeus.dao.root.File" >
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID();
+        </selectKey>
+        INSERT INTO icloud.file (filename, filepath, filesize, time, canshare)
+        VALUES (#{filename},#{filepath},#{filesize},#{time},#{canshare})
+    </insert>
+
+    <select id="getUserFiles" parameterType="com.nercoeus.action.SearchUserFilesAction" resultType="com.nercoeus.dao.root.File">
+        SELECT * FROM file WHERE filepath=#{filepath} LIMIT #{startindex},#{pagesize}
+    </select>
+
+    <select id="deleteFileById" parameterType="int">
+        DELETE FROM file WHERE id=#{value}
+    </select>
+
+    <select id="countUserFiles" parameterType="com.nercoeus.action.SearchUserFilesAction" resultType="int">
+        SELECT COUNT(id) FROM file WHERE filepath=#{filepath}
+    </select>
+
+    <update id="changeShareById" parameterType="com.nercoeus.action.ChangefilesshareAction">
+        UPDATE file SET canshare=#{canshare} WHERE id=#{id}
+    </update>
+</mapper>

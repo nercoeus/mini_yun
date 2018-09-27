@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nercoeus.dao.mapper.DownloadMapper" >
+
+    <!-- 和搜索当前用户下载此文件的总数 -->
+    <!--select id="count" parameterType="com.nercoeus.action.SearchFileAction" resultType="int">
+       SELECT COUNT(id) FROM upload WHERE upload_file_name=#{file_id} AND upload_user_name=#{user_id}
+    </select-->
+
+    <insert id="insertNum" parameterType="com.nercoeus.dao.root.Upload" >
+        INSERT INTO icloud.download (download_user_name, download_file_name, download_time)
+        VALUES (#{user_name},#{file_name},#{upload_time})
+    </insert>
+
+    <select id="getDownloadLog" parameterType="com.nercoeus.action.Download_log_Action" resultType="com.nercoeus.dao.root.Download_log" >
+        SELECT * FROM download WHERE download_user_name = #{username}
+    </select>
+
+    <select id="deleteByLog" parameterType="com.nercoeus.dao.root.Download_log">
+        DELETE FROM download WHERE download_user_name=#{download_user_name} AND download_file_name=#{download_file_name}
+    </select>
+
+    <select id="getUploadLog" parameterType="com.nercoeus.action.UploadLogAction" resultType="com.nercoeus.dao.root.Download_log" >
+        SELECT * FROM upload WHERE download_user_name = #{username}
+    </select>
+    <select id="deleteUploadByLog" parameterType="com.nercoeus.dao.root.Download_log">
+        DELETE FROM upload WHERE download_user_name=#{download_user_name} AND download_file_name=#{download_file_name}
+    </select>
+
+</mapper>

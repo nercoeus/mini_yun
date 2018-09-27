@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE struts PUBLIC
+            "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+            "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+<struts>
+    <!-- action中使用的service将由spring自动按类型注入 -->
+    <constant name="struts.objectFactory.spring.autoWire" value="type"></constant>
+    
+    <constant name="struts.devMode" value="true"></constant>
+    <constant name="struts.multipart.maxSize" value="10000000000000"></constant>
+    
+	<package name="icloud" namespace="/" extends="struts-default">
+
+		<action name="requestin" class="com.nercoeus.action.LoginAction" method="execute">
+			<result name="success">/WEB-INF/jsp/login.jsp</result>
+		</action>
+		<action name="requestup" class="com.nercoeus.action.LogupAction" method="execute">
+			<result name="success">/WEB-INF/jsp/logup.jsp</result>
+		</action>
+		<action name="login" class="com.nercoeus.action.LoginAction" method="login">
+			<result type="chain" name="success" >searchUserFiles</result>
+			<result name="input" >/WEB-INF/jsp/login.jsp</result>
+			<result name="error" >/WEB-INF/jsp/error.jsp</result>
+		</action>
+		<action name="logup" class="com.nercoeus.action.LogupAction" method="logup">
+			<result name="success" >/WEB-INF/jsp/login.jsp</result>
+			<result name="error" >/WEB-INF/jsp/error.jsp</result>
+			<result name="input" >/WEB-INF/jsp/logup.jsp</result>
+		</action>
+		<action name="searchUserFiles" class="com.nercoeus.action.SearchUserFilesAction" method="execute">
+			<result name="success">/WEB-INF/jsp/home.jsp</result>
+			<result name="input">/index.jsp</result>
+		</action>
+		<action name="searchfile" class="com.nercoeus.action.SearchFileAction" method="execute" >
+			<result name="success" >/WEB-INF/jsp/show.jsp</result>
+			<result name="input">/index.jsp</result>
+			<result name="nofile">/index.jsp</result>
+		</action>
+		<action name="listfiles" class="com.nercoeus.action.SearchFileAction" method="listFiles" >
+			<result name="success" >/WEB-INF/jsp/show.jsp</result>
+			<result name="input">/index.jsp</result>
+		</action>
+		<action name="help" class="com.nercoeus.action.LoginAction" method="execute">
+			<result name="success">/WEB-INF/jsp/help.jsp</result>
+		</action>
+		<action name="download" class="com.nercoeus.action.DownloadAction" method="execute" >
+			<result name="success">/WEB-INF/jsp/error.jsp</result>
+			<result name="input">/WEB-INF/jsp/error.jsp</result>
+		</action>
+        <action name="requestout" class="com.nercoeus.action.LogoutAction" method="execute">
+            <result name="success" >/index.jsp</result>
+        </action>
+        <action name="shutdown" class="com.nercoeus.action.ShutDown" method="execute">
+            <result name="success" >/index.jsp</result>
+        </action>
+        <action name="upload" class="com.nercoeus.action.UploadAction" method="upload">
+            <result type="chain" name="success">searchUserFiles</result>
+            <result name="error" >/WEB-INF/jsp/error.jsp</result>
+        </action>
+		<action name="deletefile" class="com.nercoeus.action.DeleteFileAction" method="delete">
+			<result type="chain" name="success">searchUserFiles</result>
+			<result name="error" >/WEB-INF/jsp/error.jsp</result>
+		</action>
+		<action name="changefilestatus" class="com.nercoeus.action.ChangefilesshareAction" method="change">
+			<result type="chain" name="success">searchUserFiles</result>
+			<result name="input" >/WEB-INF/jsp/error.jsp</result>
+		</action>
+		<action name="download_log" class="com.nercoeus.action.Download_log_Action" method="execute">
+			<result name="success">/WEB-INF/jsp/Download_log.jsp</result>
+			<result name="input" >/WEB-INF/jsp/error.jsp</result>
+		</action>
+		<action name="download_log_delete" class="com.nercoeus.action.DownloadLogDeleteAction" method="execute">
+			<result type="chain" name="success">download_log</result>
+			<result name="input" >/index.jsp</result>
+		</action>
+		<action name="upload_log" class="com.nercoeus.action.UploadLogAction" method="execute">
+			<result name="success">/WEB-INF/jsp/Upload_log.jsp</result>
+			<result name="input" >/WEB-INF/jsp/error.jsp</result>
+		</action>
+		<action name="upload_log_delete" class="com.nercoeus.action.UploadLogAction" method="delete">
+			<result type="chain" name="success">upload_log</result>
+			<result name="input" >/index.jsp</result>
+		</action>
+	</package>
+</struts>

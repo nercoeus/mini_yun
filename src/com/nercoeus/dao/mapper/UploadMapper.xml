@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nercoeus.dao.mapper.UploadMapper" >
+
+    <!-- 和搜索当前用户下载此文件的总数 -->
+    <!--select id="count" parameterType="com.nercoeus.action.SearchFileAction" resultType="int">
+       SELECT COUNT(id) FROM upload WHERE upload_file_name=#{file_id} AND upload_user_name=#{user_id}
+    </select-->
+
+    <insert id="insertNum" parameterType="com.nercoeus.dao.root.Upload" >
+        INSERT INTO icloud.upload (download_user_name, download_file_name, download_time)
+        VALUES (#{user_name},#{file_name},#{upload_time})
+    </insert>
+
+
+</mapper>
